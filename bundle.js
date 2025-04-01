@@ -9,7 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
     MicroModal.init({
         disableScroll: true,
         awaitOpenAnimation: true, 
-        awaitCloseAnimation: true
+        awaitCloseAnimation: true,
+        onClose: function(modal) {
+            if (document.activeElement.tagName === "SELECT") {
+                return false;
+            }
+        }
     });
 
     const icon = document.getElementById('icon');
@@ -17,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         MicroModal.show('modal-1');
     });
 
-    const closeButton = document.querySelector('[data-micromodal-close]');
+    const closeButton = document.querySelector('modal__close');
     closeButton.addEventListener('click', function() {
         MicroModal.close('modal-1');
     });

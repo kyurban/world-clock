@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
+    background-color: #f0e6d2;
+    color: black;
 }
 
 .top {
@@ -9,7 +11,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: end;
-    margin-right: 30%;
+    margin-right: 27%;
 }
 
 img {
@@ -36,7 +38,7 @@ img {
     display: flex;
     justify-content: flex-end;
     align-items: start;
-    margin-right: 30%;
+    margin-right: 27%;
 }
 
 .modal {
@@ -60,8 +62,8 @@ img {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background: white;
-    padding: 20px;
+    background-color: white;
+    padding: 50px;
     border-radius: 8px;
     max-width: 500px;
     width: 90%;
@@ -72,5 +74,43 @@ img {
     margin-bottom: 20px;
     padding-left: 30px;
     padding-right: 30px;
+    background: white;
+}
+
+#modal-1-title {
+    background-color: white;
+    font-size: 1.9rem;
+    cursor: default;
+}
+
+#timezone-select {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+#timezone-select option {
+    background-color: white;
+    color: black;
+}
+
+#apply-timezone {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal__overlay {
+    background-color: white;
+    border-radius: 8px;
+}
+
+.modal__content {
+    background-color: white;
 }
 

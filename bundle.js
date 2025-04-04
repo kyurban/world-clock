@@ -3,6 +3,7 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
 const MicroModal = require('micromodal');
+const modalContainer = document.querySelector('.modal-container');
 
 // Extend Day.js
 dayjs.extend(utc);
@@ -24,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+
     const icon = document.getElementById('icon');
     icon.addEventListener('click', function () {
         MicroModal.show('modal-1');
@@ -37,21 +39,17 @@ document.addEventListener("DOMContentLoaded", function () {
         defaultTimezone = timezoneInput;
         dayjs.tz.setDefault(defaultTimezone);
 
-        // Update UI immediately
+        // Update UI
         updateTime();
         MicroModal.close('modal-1');
     });
 
-    // Start ticking
     setInterval(updateTime, 1000);
     updateTime();
 });
 
 function updateTime() {
-    // Get current time in the default timezone
     const now = dayjs().tz(defaultTimezone);
-
-    // Update UI
     document.querySelector('.timezone').innerText = defaultTimezone.replace(/_/g, " ");
     document.querySelector('.time').innerText = now.format('hh:mm:ss');
     document.querySelector('.date').innerText = now.format('dddd, MMMM D, YYYY');

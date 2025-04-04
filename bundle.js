@@ -1,16 +1,23 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const dayjs = require ('dayjs');
-
-const utc = require("dayjs/plugin/utc");
-const timezone = require("dayjs/plugin/timezone");
-
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
 const MicroModal = require('micromodal');
+
+// Extend Day.js
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+// Set default timezone
+let defaultTimezone = dayjs.tz.guess();
+dayjs.tz.setDefault(defaultTimezone);
+
 document.addEventListener("DOMContentLoaded", function () {
     MicroModal.init({
         disableScroll: true,
-        awaitOpenAnimation: true, 
+        awaitOpenAnimation: true,
         awaitCloseAnimation: true,
-        onClose: function(modal) {
+        onClose: function (modal) {
             if (document.activeElement.tagName === "SELECT") {
                 return false;
             }
@@ -18,31 +25,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const icon = document.getElementById('icon');
-    icon.addEventListener('click', function() {
+    icon.addEventListener('click', function () {
         MicroModal.show('modal-1');
     });
 
-    const closeButton = document.querySelector('modal__close');
-    closeButton.addEventListener('click', function() {
+    const applyButton = document.getElementById('apply-timezone');
+    applyButton.addEventListener('click', function () {
+        const timezoneInput = document.getElementById('timezone-select').value;
+
+        // Set new default timezone
+        defaultTimezone = timezoneInput;
+        dayjs.tz.setDefault(defaultTimezone);
+
+        // Update UI immediately
+        updateTime();
         MicroModal.close('modal-1');
     });
+
+    // Start ticking
+    setInterval(updateTime, 1000);
+    updateTime();
 });
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
-setInterval(updateTime, 1000)
-
 function updateTime() {
-    const defaultTimezone = "America/Los_Angeles";
-    var timezone = defaultTimezone.replace(/_/g, " ");
-    document.querySelector('.timezone').innerText = timezone;
+    // Get current time in the default timezone
+    const now = dayjs().tz(defaultTimezone);
 
-    const now = dayjs().format('hh:mm:ss');
-    document.querySelector('.time').innerText = now;
-
-    var date = dayjs().format('dddd, MMMM D, YYYY');
-    document.querySelector('.date').innerText = date;
+    // Update UI
+    document.querySelector('.timezone').innerText = defaultTimezone.replace(/_/g, " ");
+    document.querySelector('.time').innerText = now.format('hh:mm:ss');
+    document.querySelector('.date').innerText = now.format('dddd, MMMM D, YYYY');
 }
 
 //browserify main.js -o bundle.js
